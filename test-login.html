@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Raworc Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        .result { margin-top: 20px; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Test Raworc Login</h1>
+        <p>This page tests if your mock server is working correctly.</p>
+        
+        <div class="form-group">
+            <label>Server URL:</label>
+            <input type="text" id="serverUrl" value="http://localhost:9000">
+        </div>
+        
+        <div class="form-group">
+            <label>Username:</label>
+            <input type="text" id="username" value="admin">
+        </div>
+        
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" id="password" value="password">
+        </div>
+        
+        <button onclick="testLogin()">🚀 Test Login</button>
+        <button onclick="testHealth()">❤️ Test Health</button>
+        
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function showResult(message, isSuccess) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = `result ${isSuccess ? 'success' : 'error'}`;
+            resultDiv.innerHTML = message;
+        }
+
+        async function testHealth() {
+            try {
+                const serverUrl = document.getElementById('serverUrl').value;
+                const response = await fetch(`${serverUrl}/api/v0/health`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(`✅ Health Check Passed!<br>Status: ${data.status}<br>Timestamp: ${data.timestamp}`, true);
+                } else {
+                    showResult(`❌ Health Check Failed: ${response.status}`, false);
+                }
+            } catch (error) {
+                showResult(`❌ Health Check Error: ${error.message}<br><br>🔧 Make sure mock server is running: <code>node mock-server.js</code>`, false);
+            }
+        }
+
+        async function testLogin() {
+            try {
+                const serverUrl = document.getElementById('serverUrl').value;
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Test login
+                const loginResponse = await fetch(`${serverUrl}/api/v0/auth/internal`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user: username,
+                        pass: password
+                    })
+                });
+                
+                const loginData = await loginResponse.json();
+                
+                if (loginResponse.ok) {
+                    // Test getting user info with token
+                    const userResponse = await fetch(`${serverUrl}/api/v0/auth/me`, {
+                        headers: {
+                            'Authorization': `Bearer ${loginData.token}`
+                        }
+                    });
+                    
+                    const userData = await userResponse.json();
+                    
+                    if (userResponse.ok) {
+                        showResult(`✅ Login Test Passed!<br>
+                            <strong>Token:</strong> ${loginData.token.substring(0, 20)}...<br>
+                            <strong>User:</strong> ${userData.username}<br>
+                            <strong>Email:</strong> ${userData.email}<br>
+                            <strong>Roles:</strong> ${userData.roles.join(', ')}<br><br>
+                            🎉 Your authentication is working! You should be able to login to the main app.`, true);
+                    } else {
+                        showResult(`❌ User Info Failed: ${userResponse.status}`, false);
+                    }
+                } else {
+                    showResult(`❌ Login Failed: ${loginData.message || 'Unknown error'}<br><br>
+                        ✅ Try these credentials:<br>
+                        Username: <strong>admin</strong><br>
+                        Password: <strong>password</strong>`, false);
+                }
+            } catch (error) {
+                showResult(`❌ Login Test Error: ${error.message}<br><br>🔧 Make sure mock server is running: <code>node mock-server.js</code>`, false);
+            }
+        }
+
+        // Auto-test health on page load
+        window.onload = () => {
+            setTimeout(testHealth, 1000);
+        };
+    </script>
+</body>
+</html>
