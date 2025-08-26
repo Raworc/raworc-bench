@@ -1,4 +1,13 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
+
+// Extend the Axios config type to include our metadata
+declare module 'axios' {
+  interface InternalAxiosRequestConfig {
+    metadata?: {
+      startTime: number;
+    };
+  }
+}
 import { TokenManager } from './cookies';
 import type { 
   ApiResponse, 
@@ -105,10 +114,11 @@ class RaworcApiClient {
   private transformError(error: AxiosError): ApiResponse {
     if (error.response) {
       // Server responded with error status
+      const responseData = error.response.data as any;
       return {
         success: false,
         error: {
-          message: error.response.data?.message || error.message,
+          message: responseData?.message || error.message || 'Server error occurred',
           code: error.response.status.toString(),
           details: error.response.data,
         },

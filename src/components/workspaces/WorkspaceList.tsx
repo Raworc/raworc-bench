@@ -103,8 +103,8 @@ const WorkspaceList: React.FC<WorkspaceListProps> = ({
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        <span className="ml-2 text-gray-600">Loading workspaces...</span>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
+        <span className="ml-2 text-gray-600 dark:text-gray-300">Loading workspaces...</span>
       </div>
     );
   }
@@ -113,7 +113,7 @@ const WorkspaceList: React.FC<WorkspaceListProps> = ({
   if (error) {
     return (
       <div className="text-center py-12">
-        <div className="text-red-600 mb-4">{error}</div>
+        <div className="text-red-600 dark:text-red-400 mb-4">{error}</div>
         <Button onClick={loadWorkspaces} variant="outline">
           <RefreshCw className="h-4 w-4 mr-2" />
           Retry
@@ -127,8 +127,8 @@ const WorkspaceList: React.FC<WorkspaceListProps> = ({
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Workspaces</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Workspaces</h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-1">
             Manage your development environments and containerized sessions
           </p>
         </div>
@@ -166,9 +166,9 @@ const WorkspaceList: React.FC<WorkspaceListProps> = ({
       ) : (
         // Empty state
         <div className="text-center py-12">
-          <FolderOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No workspaces found</h3>
-          <p className="text-gray-600 mb-6">
+          <FolderOpen className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">No workspaces found</h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
             Get started by creating your first workspace
           </p>
           <Button onClick={() => setShowCreateModal(true)}>

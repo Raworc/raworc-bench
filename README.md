@@ -1,38 +1,87 @@
-# raworc-bench
+# Raworc Bench
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A modern web interface for managing containerized workspaces and sessions. Built with Next.js, TypeScript, and Tailwind CSS with full dark/light theme support.
 
-## Getting Started
+## Quick Start
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+ installed
+- npm or yarn package manager
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Installation
+
+1. **Clone and install dependencies:**
+   ```bash
+   git clone <repository-url>
+   cd raworc-bench
+   npm install
+   ```
+
+2. **Start both servers (recommended):**
+   ```bash
+   npm run dev:all
+   ```
+   This starts both the Next.js client and mock API server simultaneously.
+
+3. **Or start servers separately:**
+   ```bash
+   # Terminal 1 - Start mock API server
+   node mock-server.js
+   
+   # Terminal 2 - Start Next.js client
+   npm run dev
+   ```
+
+### Access the Application
+
+- **Web Application**: http://localhost:3000
+- **Mock API Server**: http://localhost:9000
+
+### Login Credentials
+
+```
+Username: admin
+Password: password
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🖥️ **Workspace Management** - Create and manage development environments
+- 🐳 **Session Control** - Start, stop, and monitor containerized sessions
+- 🌙 **Dark/Light Theme** - Toggle between themes with persistent preference
+- 📱 **Responsive Design** - Works on desktop and mobile devices
+- 🔒 **Authentication** - Secure login with session management
+- ⚡ **Real-time Updates** - Live status updates for sessions and workspaces
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Scripts
 
-## Learn More
+- `npm run dev` - Start Next.js development server only
+- `npm run dev:all` - Start both client and API servers
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+raworc-bench/
+├── src/
+│   ├── app/           # Next.js app router
+│   ├── components/    # React components
+│   ├── contexts/      # React contexts (Auth, Theme)
+│   ├── lib/          # Utility functions
+│   └── types/        # TypeScript type definitions
+├── mock-server.js    # Express.js mock API
+└── public/          # Static assets
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Development
 
-## Deploy on Vercel
+The application includes:
+- Hot reload for development
+- TypeScript support
+- ESLint configuration
+- Tailwind CSS for styling
+- Mock API for testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For detailed development information, see [RAWORC_BENCH_GUIDE.md](./RAWORC_BENCH_GUIDE.md).

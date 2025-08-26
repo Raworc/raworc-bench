@@ -49,31 +49,31 @@ const SessionCard: React.FC<SessionCardProps> = ({
     switch (status) {
       case 'running':
         return {
-          color: 'text-green-600 bg-green-100',
+          color: 'text-green-700 bg-green-100 dark:text-green-300 dark:bg-green-900/50',
           icon: <Play className="h-3 w-3" />,
           label: 'Running'
         };
       case 'stopped':
         return {
-          color: 'text-gray-600 bg-gray-100',
+          color: 'text-gray-700 bg-gray-100 dark:text-gray-300 dark:bg-gray-700',
           icon: <Square className="h-3 w-3" />,
           label: 'Stopped'
         };
       case 'pending':
         return {
-          color: 'text-yellow-600 bg-yellow-100',
+          color: 'text-yellow-700 bg-yellow-100 dark:text-yellow-300 dark:bg-yellow-900/50',
           icon: <Clock className="h-3 w-3" />,
           label: 'Pending'
         };
       case 'error':
         return {
-          color: 'text-red-600 bg-red-100',
+          color: 'text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900/50',
           icon: <Activity className="h-3 w-3" />,
           label: 'Error'
         };
       default:
         return {
-          color: 'text-gray-600 bg-gray-100',
+          color: 'text-gray-700 bg-gray-100 dark:text-gray-300 dark:bg-gray-700',
           icon: <Activity className="h-3 w-3" />,
           label: capitalize(status)
         };
@@ -148,16 +148,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
   const canStop = session.status === 'running';
 
   return (
-    <div className="bg-white rounded-lg shadow border hover:shadow-md transition-shadow duration-200">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
       {/* Card Header */}
       <div className="p-6 pb-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center min-w-0 flex-1">
             <div className="flex-shrink-0">
-              <Container className="h-8 w-8 text-blue-600" />
+              <Container className="h-8 w-8 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="ml-3 min-w-0 flex-1">
-              <h3 className="text-lg font-medium text-gray-900 truncate">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 truncate">
                 {session.name}
               </h3>
               <div className="flex items-center mt-1">
@@ -173,9 +173,9 @@ const SessionCard: React.FC<SessionCardProps> = ({
           <div className="relative ml-3">
             <button
               onClick={() => setShowMenu(!showMenu)}
-              className="p-1 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <MoreVertical className="h-5 w-5 text-gray-400" />
+              <MoreVertical className="h-5 w-5 text-gray-400 dark:text-gray-500" />
             </button>
 
             {/* Dropdown Menu */}
@@ -188,12 +188,12 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 />
                 
                 {/* Menu */}
-                <div className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg z-20 border">
+                <div className="absolute right-0 mt-1 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-20 border border-gray-200 dark:border-gray-700">
                   <div className="py-1">
                     <button
                       onClick={handleDelete}
                       disabled={actionLoading === 'delete'}
-                      className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50"
+                      className="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 disabled:opacity-50"
                     >
                       <Trash2 className="h-4 w-4 mr-3" />
                       {actionLoading === 'delete' ? 'Deleting...' : 'Delete'}
@@ -209,10 +209,10 @@ const SessionCard: React.FC<SessionCardProps> = ({
       {/* Container Info */}
       {session.container_info && (
         <div className="px-6 pb-4">
-          <div className="bg-gray-50 rounded-lg p-3">
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
             <div className="text-sm">
-              <div className="font-medium text-gray-700 mb-1">Container Info</div>
-              <div className="text-gray-600 space-y-1">
+              <div className="font-medium text-gray-700 dark:text-gray-300 mb-1">Container Info</div>
+              <div className="text-gray-600 dark:text-gray-400 space-y-1">
                 <div>Image: {session.container_info.image}</div>
                 {session.container_info.ports && session.container_info.ports.length > 0 && (
                   <div>Ports: {session.container_info.ports.join(', ')}</div>
@@ -230,14 +230,14 @@ const SessionCard: React.FC<SessionCardProps> = ({
 
       {/* Timestamps */}
       <div className="px-6 pb-4">
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-gray-500 dark:text-gray-400">
           <div>Created {formatRelativeTime(session.created_at)}</div>
           <div>Updated {formatRelativeTime(session.updated_at)}</div>
         </div>
       </div>
 
       {/* Card Footer */}
-      <div className="px-6 py-4 bg-gray-50 rounded-b-lg">
+      <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
         <div className="flex space-x-3">
           {canStart && (
             <Button
